@@ -16,17 +16,30 @@ impl Notepad {
 
         match opcode {
             Operation::Del => {
-                self.text.remove(index);
+                self.remove(index);
             },
             Operation::Ins => {
-                self.text.insert(index, operand.expect("Char not given to Operation: Insert"));
+                self.insert(index, operand.expect("Char not given to Operation: Insert"));
             },
             Operation::Rep => {
-                self.text.remove(index);
-                self.text.insert(index, operand.expect("Char not given to Operation: Rep"));
+                self.replace(index, operand.expect("Char not given to Operation: Rep"));
             }
         }
     }
+
+    fn insert(&mut self, index: usize, value: char) {
+        self.text.insert(index, value);
+    }
+
+    fn remove(&mut self, index: usize) {
+        self.text.remove(index);
+    }
+
+    fn replace(&mut self, index: usize, value: char) {
+        self.remove(index);
+        self.insert(index, value);
+    }
+
 }
 
 #[cfg(test)]
